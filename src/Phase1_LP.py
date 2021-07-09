@@ -12,7 +12,7 @@ class Trip:
         return f"{self.startTime}:{self.endTime}:{self.source}:{self.destination}"
 
 
-dataset_path = "dataset/General-Dataset-1.txt"
+dataset_path = "dataset/General-Dataset-3.txt"
 matrixd_path = "dataset/MarixD_dataset1_General.txt"
 
 dist = {}
@@ -35,14 +35,33 @@ N = len(trips)
 
 model = pulp.LpProblem(name="Phase1", sense=pulp.LpMinimize)
 variables = {}
+variables_by_nodes = {}
+
+for i in range(N):
+    variables_by_nodes[f"{i}s_out"] = []
+    variables_by_nodes[f"{i}s_in"] = []
+    variables_by_nodes[f"{i}e_out"] = []
+    variables_by_nodes[f"{i}e_in"] = []
+
+variables_by_nodes["A_in"] = []
+variables_by_nodes["A_out"] = []
+
 
 for i, trip in enumerate(trips):
     var_name = f"A_{i}s"
-    variables[var_name] = pulp.LpVariable(name=var_name, lowBound=0, upBound=1, cat='Integer')
+    var = variables[var_name] = pulp.LpVariable(name=var_name, lowBound=0, upBound=1, cat='Integer')
+    variables_by_nodes["A_out"].append(var)
+    variables_by_nodes[f"{i}s_in"].append(var)
+
     var_name = f"{i}e_A"
-    variables[var_name] = pulp.LpVariable(name=var_name, lowBound=0, upBound=1, cat='Integer')
-    # var_name = f"{i}s_{i}e"
-    # variables[var_name] = pulp.LpVariable(name=var_name, lowBound=1, upBound=1, cat='Integer')
+    var = variables[var_name] = pulp.LpVariable(name=var_name, lowBound=0, upBound=1, cat='Integer')
+    variables_by_nodes["A_in"].append(var)
+    variables_by_nodes[f"{i}e_out"].append(var)
+
+    var_name = f"{i}s_{i}e"
+    var = variables[var_name] = pulp.LpVariable(name=var_name, lowBound=1, upBound=1, cat='Integer')
+    variables_by_nodes[f"{i}s_out"].append(var)
+    variables_by_nodes[f"{i}e_in"].append(var)
 
 for i, trip1 in enumerate(trips):
     for j, trip2 in enumerate(trips):
@@ -51,35 +70,32 @@ for i, trip1 in enumerate(trips):
             <= trip2.endTime - dist[(trip2.source, trip2.destination)]
         ):
             var_name = f"{i}e_{j}s"
-            variables[var_name] = pulp.LpVariable(name=var_name, lowBound=0, upBound=1, cat='Integer')
+            var = variables[var_name] = pulp.LpVariable(name=var_name, lowBound=0, upBound=1, cat='Integer')
+            variables_by_nodes[f"{i}e_out"].append(var)
+            variables_by_nodes[f"{j}s_in"].append(var)
 
 var_name = f"A_A"
-variables[var_name] = pulp.LpVariable(name=var_name, lowBound=0, upBound=N, cat='Integer')
+var = variables[var_name] = pulp.LpVariable(name=var_name, lowBound=0, upBound=N, cat='Integer')
+variables_by_nodes["A_out"].append(var)
+variables_by_nodes["A_in"].append(var)
 
-lst = [var for var_name, var in variables.items() if 'A_' in var_name]
-model += (sum(lst) == N)
+model += (sum(variables_by_nodes["A_out"]) == N)
 
-lst = [var for var_name, var in variables.items() if '_A' in var_name]
-model += (sum(lst) == N)
+model += (sum(variables_by_nodes["A_in"]) == N)
 
 for i in range(N):
-    out_list = [var for var_name, var in variables.items() if f"{i}s_" in var_name]
-    in_list = [var for var_name, var in variables.items() if f"_{i}s" in var_name]
-    model += (sum(in_list) - sum(out_list) == 1)
-
-    out_list = [var for var_name, var in variables.items() if f"{i}e_" in var_name]
-    in_list = [var for var_name, var in variables.items() if f"_{i}e" in var_name]
-    model += (sum(in_list) - sum(out_list) == -1)
+    model += (sum(variables_by_nodes[f"{i}s_out"]) - sum(variables_by_nodes[f"{i}s_in"]) == 0, f"{i}s")
+    model += (sum(variables_by_nodes[f"{i}e_out"]) - sum(variables_by_nodes[f"{i}e_in"]) == 0, f"{i}e")
 
 obj_func = -1 * variables['A_A']
 model += obj_func
 
 print("----------------------------")
-print(model.solve(solver=pulp.GLPK(msg=False)))
+print(model.solve())
 print(model.objective.value())
 
-if model.status != -1:
-    for var in model.variables():
-        print(f"{var.name}: {var.value()}")
+# if model.status != -1:
+#     for var in model.variables():
+#         print(f"{var.name}: {var.value()}")
 
 print(f"min number of cars : {N-variables['A_A'].value()}")

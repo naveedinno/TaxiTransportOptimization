@@ -16,7 +16,7 @@ class Trip:
         return f"{self.startTime}:{self.endTime}:{self.source}:{self.destination}"
 
 
-dataset_path = "dataset/General-Dataset-1.txt"
+dataset_path = "dataset/General-Dataset-3.txt"
 matrixd_path = "dataset/MarixD_dataset1_General.txt"
 
 dist = {}
@@ -76,11 +76,11 @@ flowCost, flowDict = nx.network_simplex(G)
 print(f"flowCost : {flowCost}")
 print(f"min number of cars : {N-flowDict['A_start']['A_end']}")
 
-print(json.dumps(flowDict, indent=4, sort_keys=True))
+# print(json.dumps(flowDict, indent=4, sort_keys=True))
 
 # if N < 20:
 #     nx.draw_networkx(G, with_labels=True, pos=pos, node_color="#47a0ff")
 #     plt.show()
 
 if N < 20:
-gu.draw_graph(G.edges, G.nodes, pos, flowDict).show()
+    gu.draw_graph(G.edges, G.nodes, pos, flowDict).show()
