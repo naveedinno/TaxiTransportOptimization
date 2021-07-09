@@ -2,7 +2,6 @@ import json
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
 
 class Trip:
@@ -16,9 +15,8 @@ class Trip:
         return f"{self.startTime}:{self.endTime}:{self.source}:{self.destination}"
 
 
-fileDir = os.path.dirname(os.path.realpath("__file__"))
-dataset_path = os.path.join(fileDir, "dataset/General-Dataset-1.txt")
-matrixd_path = os.path.join(fileDir, "dataset/MarixD_dataset1_General.txt")
+dataset_path = "dataset/General-Dataset-1.txt"
+matrixd_path = "dataset/MarixD_dataset1_General.txt"
 
 dist = {}
 pos = {}
