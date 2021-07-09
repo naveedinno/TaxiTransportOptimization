@@ -36,10 +36,9 @@ with open(dataset_path, "r") as f:
     lines = f.readlines()[1:]
     for line in lines:
         trips.append(Trip(*line.split(",")))
+N = len(trips)
 
 G = nx.DiGraph()
-
-N = len(trips)
 
 G.add_node("A_start", demand=-N)
 G.add_node("A_end", demand=N)
@@ -83,4 +82,5 @@ print(json.dumps(flowDict, indent=4, sort_keys=True))
 #     nx.draw_networkx(G, with_labels=True, pos=pos, node_color="#47a0ff")
 #     plt.show()
 
+if N < 20:
 gu.draw_graph(G.edges, G.nodes, pos, flowDict).show()
