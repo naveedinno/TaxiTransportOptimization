@@ -1,0 +1,86 @@
+import json
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+import GraphUtils as gu
+
+
+class Trip:
+    def __init__(self, startTime, endTime, source, destination):
+        self.startTime = int(startTime.strip())
+        self.endTime = int(endTime.strip())
+        self.source = int(source.strip())
+        self.destination = int(destination.strip())
+
+    def __str__(self):
+        return f"{self.startTime}:{self.endTime}:{self.source}:{self.destination}"
+
+
+dataset_path = "dataset/General-Dataset-1.txt"
+matrixd_path = "dataset/MarixD_dataset1_General.txt"
+
+dist = {}
+pos = {}
+trips = []
+
+with open(matrixd_path, "r") as f:
+    lines = f.readlines()
+    for i, line in enumerate(lines):
+        a = [token for token in line.strip().split("  ") if token][1:]
+        for j, token in enumerate(a):
+            dist[(i, i + j)] = int(token)
+            dist[(i + j, i)] = int(token)
+
+
+with open(dataset_path, "r") as f:
+    lines = f.readlines()[1:]
+    for line in lines:
+        trips.append(Trip(*line.split(",")))
+
+G = nx.DiGraph()
+
+N = len(trips)
+
+G.add_node("A_start", demand=-N)
+G.add_node("A_end", demand=N)
+
+pos["A_start"] = np.array([0, -(N - 1) * 50])
+pos["A_end"] = np.array([900, -(N - 1) * 50])
+
+for i, trip in enumerate(trips):
+    G.add_node(f"{i}_start", demand=1)
+    G.add_node(f"{i}_end", demand=-1)
+
+    pos[f"{i}_start"] = np.array([300, -100 * i])
+    pos[f"{i}_end"] = np.array([600, -100 * i])
+
+    G.add_edge("A_start", f"{i}_start", capacity=1, weight=dist[(1, trip.source)])
+    G.add_edge(f"{i}_end", "A_end", capacity=1, weight=dist[(trip.destination, 1)])
+
+for i, trip1 in enumerate(trips):
+    for j, trip2 in enumerate(trips):
+        if (
+            trip1.endTime + dist[(trip1.destination, trip2.source)]
+            <= trip2.endTime - dist[(trip2.source, trip2.destination)]
+        ):
+            G.add_edge(
+                f"{i}_end",
+                f"{j}_start",
+                capacity=1,
+                weight=dist[(trip1.destination, trip2.source)],
+            )
+
+G.add_edge("A_start", "A_end", weight=0)
+
+flowCost, flowDict = nx.network_simplex(G)
+
+print(f"flowCost : {flowCost}")
+print(f"min number of cars : {N-flowDict['A_start']['A_end']}")
+
+print(json.dumps(flowDict, indent=4, sort_keys=True))
+
+# if N < 20:
+#     nx.draw_networkx(G, with_labels=True, pos=pos, node_color="#47a0ff")
+#     plt.show()
+
+gu.draw_graph(G.edges, G.nodes, pos, flowDict).show()
