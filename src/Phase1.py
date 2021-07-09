@@ -63,12 +63,12 @@ for i, trip1 in enumerate(trips):
         ):
             G.add_edge(f"{i}_end", f"{j}_start", capacity=1)
 
-G.add_edge("A_start", "A_end", cost=-1)
+G.add_edge("A_start", "A_end", weight=-1)
 
 # for e in G.edges:
 #     print(e)
 
-flowCost, flowDict = nx.network_simplex(G, weight="cost")
+flowCost, flowDict = nx.network_simplex(G)
 
 # print(f"flowCost : {flowCost}")
 print(f"min number of cars : {N-flowDict['A_start']['A_end']}")

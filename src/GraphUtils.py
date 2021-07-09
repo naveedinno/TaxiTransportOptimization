@@ -27,7 +27,7 @@ def draw_graph(edges, nodes, pos, flowDict):
         flow = flowDict[char_1][char_2]
         if (char_1, char_2) == ("A_start", "A_end"):
             continue
-        text = f"{char_1} -> {char_2}"
+        text = f"{flow}  {char_1} -> {char_2}"
         if flow :
             trace = make_edge([x0, x1, None], [y0, y1, None], text, flow * 3, "orange")
         else:
@@ -45,6 +45,7 @@ def draw_graph(edges, nodes, pos, flowDict):
         mode="markers+text",
         hoverinfo="none",
         marker=dict(color=[], size=[], line=None),
+        name="nodes"
     )
 
     # For each node in G, get the position and size and add to the node_trace
