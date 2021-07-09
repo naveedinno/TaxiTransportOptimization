@@ -2,6 +2,7 @@ import json
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 
 class Trip:
@@ -15,8 +16,9 @@ class Trip:
         return f"{self.startTime}:{self.endTime}:{self.source}:{self.destination}"
 
 
-dataset_path = "./General-Dataset-1.txt"
-matrixd_path = "./MarixD_dataset1_General.txt"
+fileDir = os.path.dirname(os.path.realpath("__file__"))
+dataset_path = os.path.join(fileDir, "dataset/General-Dataset-1.txt")
+matrixd_path = os.path.join(fileDir, "dataset/MarixD_dataset1_General.txt")
 
 dist = {}
 pos = {}
@@ -28,7 +30,7 @@ with open(matrixd_path, "r") as f:
         a = [token for token in line.strip().split("  ") if token][1:]
         for j, token in enumerate(a):
             dist[(i, i + j)] = int(token)
-            dist[(i + j, i)] =  int(token)
+            dist[(i + j, i)] = int(token)
 
 with open(dataset_path, "r") as f:
     lines = f.readlines()[1:]
@@ -42,8 +44,8 @@ N = len(trips)
 G.add_node("as", demand=-N)
 G.add_node("ae", demand=N)
 
-pos["as"] = np.array([0, -N*50])
-pos["ae"] = np.array([900, -N*50])
+pos["as"] = np.array([0, -N * 50])
+pos["ae"] = np.array([900, -N * 50])
 
 for i, trip in enumerate(trips):
     G.add_node(f"{i}s", demand=1)
@@ -57,7 +59,10 @@ for i, trip in enumerate(trips):
 
 for i, trip1 in enumerate(trips):
     for j, trip2 in enumerate(trips):
-        if trip1.endTime + dist[(trip1.destination, trip2.source)] <= trip2.endTime - dist[(trip2.source, trip2.destination)]:
+        if (
+            trip1.endTime + dist[(trip1.destination, trip2.source)]
+            <= trip2.endTime - dist[(trip2.source, trip2.destination)]
+        ):
             G.add_edge(f"{i}e", f"{j}s", capacity=1)
 
 G.add_edge("as", "ae", cost=-1)
