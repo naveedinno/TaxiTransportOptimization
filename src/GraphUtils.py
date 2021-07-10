@@ -1,6 +1,8 @@
 from os import name
-import plotly.offline as py
+
 import plotly.graph_objects as go
+import plotly.offline as py
+from random import randint
 
 
 def make_edge(x, y, text, width, color="cornflowerblue"):
@@ -67,9 +69,31 @@ def draw_graph(edges, nodes, pos, flowDict):
 
     # Create figure
     fig = go.Figure(layout=layout)
+
     # Add all edge traces
     for trace in edge_trace:
+        direction = 1 if trace.x[1] > trace.x[0] else -1
+        length = abs(trace.x[1] - trace.x[0])
+        if trace.x[0] == 600 and trace.x[1] == 300:
+            length += randint(-250, 250)
+        m = (trace.y[1] - trace.y[0]) / (trace.x[1] - trace.x[0])
         fig.add_trace(trace)
+        fig.add_annotation(
+            x=trace.x[1] - length / 2 * direction,          # arrows' head
+            y=trace.y[1] - m * length / 2 * direction,      # arrows' head
+            ax=trace.x[0],                      # arrows' tail
+            ay=trace.y[0],                      # arrows' tail
+            xref='x',
+            yref='y',
+            axref='x',
+            ayref='y',
+            text='',                            # if you want only the arrow
+            showarrow=True,
+            arrowhead=3,
+            arrowsize=2,
+            arrowwidth=1,
+            arrowcolor=trace.line.color
+            )
     # Add node trace
     fig.add_trace(node_trace)
     # Remove legend
