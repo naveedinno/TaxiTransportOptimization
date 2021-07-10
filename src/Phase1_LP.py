@@ -1,10 +1,12 @@
 import pulp
-
+from datetime import datetime, timedelta, date, time
 
 class Trip:
     def __init__(self, startTime, endTime, source, destination):
-        self.startTime = int(startTime.strip())
-        self.endTime = int(endTime.strip())
+        startTime = startTime.strip()
+        self.startTime = datetime.combine(date.today(), time(hour=int(startTime[:-2]), minute=int(startTime[-2:])))
+        endTime = endTime.strip()
+        self.endTime = datetime.combine(date.today(), time(hour=int(endTime[:-2]), minute=int(endTime[-2:])))
         self.source = int(source.strip())
         self.destination = int(destination.strip())
 
@@ -12,7 +14,7 @@ class Trip:
         return f"{self.startTime}:{self.endTime}:{self.source}:{self.destination}"
 
 
-dataset_path = "dataset/General-Dataset-1.txt"
+dataset_path = "dataset/General-Dataset-3.txt"
 matrixd_path = "dataset/MarixD_dataset1_General.txt"
 
 dist = {}
@@ -66,8 +68,8 @@ for i, trip in enumerate(trips):
 for i, trip1 in enumerate(trips):
     for j, trip2 in enumerate(trips):
         if (
-            trip1.endTime + dist[(trip1.destination, trip2.source)]
-            <= trip2.endTime - dist[(trip2.source, trip2.destination)]
+            trip1.endTime + timedelta(minutes=dist[(trip1.destination, trip2.source)])
+            <= trip2.endTime - timedelta(minutes=dist[(trip2.source, trip2.destination)])
         ):
             var_name = f"{i}e_{j}s"
             var = variables[var_name] = pulp.LpVariable(name=var_name, lowBound=0, upBound=1, cat='Integer')

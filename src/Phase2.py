@@ -3,12 +3,14 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import GraphUtils as gu
-
+from datetime import datetime, timedelta, date, time
 
 class Trip:
     def __init__(self, startTime, endTime, source, destination):
-        self.startTime = int(startTime.strip())
-        self.endTime = int(endTime.strip())
+        startTime = startTime.strip()
+        self.startTime = datetime.combine(date.today(), time(hour=int(startTime[:-2]), minute=int(startTime[-2:])))
+        endTime = endTime.strip()
+        self.endTime = datetime.combine(date.today(), time(hour=int(endTime[:-2]), minute=int(endTime[-2:])))
         self.source = int(source.strip())
         self.destination = int(destination.strip())
 
@@ -59,8 +61,8 @@ for i, trip in enumerate(trips):
 for i, trip1 in enumerate(trips):
     for j, trip2 in enumerate(trips):
         if (
-            trip1.endTime + dist[(trip1.destination, trip2.source)]
-            <= trip2.endTime - dist[(trip2.source, trip2.destination)]
+            trip1.endTime + timedelta(minutes=dist[(trip1.destination, trip2.source)])
+            <= trip2.endTime - timedelta(minutes=dist[(trip2.source, trip2.destination)])
         ):
             G.add_edge(
                 f"{i}_end",
