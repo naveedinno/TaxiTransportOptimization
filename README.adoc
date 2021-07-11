@@ -294,3 +294,48 @@ image::media/Page-4.png[600, 600, align="center"]
 The optimal answer according to the specified situation (with respect to 10% loss in profit for the benefit of the environment) is the best solution of the mentioned iterations.
 
 As you may have already noticed, there is a performance problem here due to the number of iterations. However, to make things a little bit better, we can calculate the minimum environmental cost (using `phase2`) and then use it to terminate the iterations whenever we reach the minimum environmental cost.
+
+.Results
+[cols="^1,^1,^1,^1,^1"]
+|====
+|           2+|Version 1                              2+|Version 2
+|Dataset    |Optimal Car Number   |Optimal Env. Cost  |Optimal Car Number   |Optimal Env. Cost
+
+|`General-Dataset-1`
+|4
+|146
+|4
+|146
+
+|`General-Dataset-2`
+|47
+|1382
+|47
+|1382
+
+|`General-Dataset-3`
+|173
+|4905
+|173
+|4905
+
+|`d1`
+|5
+|154
+|5
+|154
+
+|`d2`
+|36
+|997
+|36
+|997
+
+|`d3`
+|200
+|5769
+|200
+|5769
+|===
+
+|====
