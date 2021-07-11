@@ -91,28 +91,28 @@ image::media/F1.png[400, 400, align="center"]
 |Dataset |Network Simplex RunTime (sec) |ILP RunTime (sec)
 
 |`General-Dataset-1`
-|123
-|321
+|0.00131
+|0.01856
 
 |`General-Dataset-2`
-|123
-|321
+|0.21077
+|0.77281
 
 |`General-Dataset-3`
-|123
-|321
+|7.55162
+|25.65958
 
 |`d1`
-|321
-|321
+|0.00119
+|0.01160
 
 |`d2`
-|123
-|321
+|0.08989
+|0.31820
 
 |`d3`
-|321
-|321
+|15.74275
+|61.40548
 |===
 
 
@@ -122,28 +122,28 @@ image::media/F1.png[400, 400, align="center"]
 |Dataset |Network Simplex Optimal Solution |ILP Optimal Solution
 
 |`General-Dataset-1`
-|123
-|321
+|4
+|4
 
 |`General-Dataset-2`
-|123
-|321
+|47
+|47
 
 |`General-Dataset-3`
-|123
-|321
+|173
+|173
 
 |`d1`
-|321
-|321
+|5
+|5
 
 |`d2`
-|123
-|321
+|36
+|36
 
 |`d3`
-|321
-|321
+|200
+|200
 |===
 
 ''''
@@ -212,28 +212,28 @@ image::media/F2.png[700, 700, align="center"]
 |Dataset |Network Simplex RunTime (sec) |ILP RunTime (sec)
 
 |`General-Dataset-1`
-|123
-|321
+|0.00133
+|0.01215
 
 |`General-Dataset-2`
-|123
-|321
+|0.17367
+|12.92621
 
 |`General-Dataset-3`
-|123
-|321
+|6.90205
+|N.A
 
 |`d1`
-|321
-|321
+|0.00126
+|0.01155
 
 |`d2`
-|123
-|321
+|0.07989
+|2.99807
 
 |`d3`
-|321
-|321
+|4.32141
+|N.A
 |===
 
 
@@ -243,28 +243,28 @@ image::media/F2.png[700, 700, align="center"]
 |Dataset |Network Simplex Optimal Solution |ILP Optimal Solution
 
 |`General-Dataset-1`
-|123
-|321
+|146
+|146
 
 |`General-Dataset-2`
-|123
-|321
+|1382
+|1382
 
 |`General-Dataset-3`
-|123
-|321
+|4905
+|N.A
 
 |`d1`
-|321
-|321
+|154
+|154
 
 |`d2`
-|123
-|321
+|997
+|997
 
 |`d3`
-|321
-|321
+|5769
+|N.A
 |===
 
 ''''
