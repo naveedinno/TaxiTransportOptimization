@@ -29,7 +29,7 @@ def draw_graph(edges, nodes, pos, flowDict):
         flow = flowDict[char_1][char_2]
         if (char_1, char_2) == ("A_start", "A_end"):
             continue
-        text = f"{flow}  {char_1} -> {char_2}"
+        text = f"{char_1} -> {char_2} flow:{flow} cost:{edges[edge]['weight']}"
         if flow :
             trace = make_edge([x0, x1, None], [y0, y1, None], text, flow * 3, "orange")
         else:
