@@ -90,29 +90,29 @@ image::media/F1.png[400, 400, align="center"]
 |===
 |Dataset |Network Simplex RunTime (sec) |ILP RunTime (sec)
 
-|`General-Dataset-1`
-|0.00131
-|0.01856
+^|`General-Dataset-1`
+^|0.00131
+^|0.01856
 
-|`General-Dataset-2`
-|0.21077
-|0.77281
+^|`General-Dataset-2`
+^|0.21077
+^|0.77281
 
-|`General-Dataset-3`
-|7.55162
-|25.65958
+^|`General-Dataset-3`
+^|7.55162
+^|25.65958
 
-|`d1`
-|0.00119
-|0.01160
+^|`d1`
+^|0.00119
+^|0.01160
 
-|`d2`
-|0.08989
-|0.31820
+^|`d2`
+^|0.08989
+^|0.31820
 
-|`d3`
-|15.74275
-|61.40548
+^|`d3`
+^|15.74275
+^|61.40548
 |===
 
 
@@ -121,32 +121,31 @@ image::media/F1.png[400, 400, align="center"]
 |===
 |Dataset |Network Simplex Optimal Solution |ILP Optimal Solution
 
-|`General-Dataset-1`
-|4
-|4
+^|`General-Dataset-1`
+^|4
+^|4
 
-|`General-Dataset-2`
-|47
-|47
+^|`General-Dataset-2`
+^|47
+^|47
 
-|`General-Dataset-3`
-|173
-|173
+^|`General-Dataset-3`
+^|173
+^|173
 
-|`d1`
-|5
-|5
+^|`d1`
+^|5
+^|5
 
-|`d2`
-|36
-|36
+^|`d2`
+^|36
+^|36
 
-|`d3`
-|200
-|200
+^|`d3`
+^|200
+^|200
 |===
 
-''''
 
 == Phase 2
 
@@ -211,63 +210,81 @@ image::media/F2.png[700, 700, align="center"]
 |===
 |Dataset |Network Simplex RunTime (sec) |ILP RunTime (sec)
 
-|`General-Dataset-1`
-|0.00133
-|0.01215
+^|`General-Dataset-1`
+^|0.00133
+^|0.01215
 
-|`General-Dataset-2`
-|0.17367
-|12.92621
+^|`General-Dataset-2`
+^|0.17367
+^|12.92621
 
-|`General-Dataset-3`
-|6.90205
-|N.A
+^|`General-Dataset-3`
+^|6.90205
+^|N.A
 
-|`d1`
-|0.00126
-|0.01155
+^|`d1`
+^|0.00126
+^|0.01155
 
-|`d2`
-|0.07989
-|2.99807
+^|`d2`
+^|0.07989
+^|2.99807
 
-|`d3`
-|4.32141
-|N.A
+^|`d3`
+^|4.32141
+^|N.A
 |===
 
 
 .Results
-[cols="^1,^1,^1"]
+[cols="^1,^1,^1,^1,^1"]
 |===
-|Dataset |Network Simplex Optimal Solution |ILP Optimal Solution
+|Dataset 2+|Network Simplex Optimal Solution 2+|ILP Optimal Solution
 
-|`General-Dataset-1`
-|146
-|146
+^|
+^|Min Env. Cost
+^|Car Number
+^|Min Env. Cost
+^|Car Number
 
-|`General-Dataset-2`
-|1382
-|1382
+^|`General-Dataset-1`
+^|146
+^|4
+^|146
+^|4
 
-|`General-Dataset-3`
-|4905
-|N.A
+^|`General-Dataset-2`
+^|1382
+^|54
+^|1382
+^|47
 
-|`d1`
-|154
-|154
+^|`General-Dataset-3`
+^|4905
+^|177
+^|N.A
+^|N.A
 
-|`d2`
-|997
-|997
+^|`d1`
+^|154
+^|5
+^|154
+^|5
 
-|`d3`
-|5769
-|N.A
+^|`d2`
+^|997
+^|42
+^|997
+^|36
+
+^|`d3`
+^|5769
+^|201
+^|N.A
+^|N.A
 |===
 
-''''
+TIP: The differences between the car numbers in the network model and ILP model is just because of _Alternative Optimal Solution_
 
 == Phase 3
 From real-life experience, we know that salvation is to obtain the best of the two worlds (phase 1&2). In another word, in this phase, we want to minimize not only the number of required cars but also the environmental cost.
@@ -298,44 +315,49 @@ As you may have already noticed, there is a performance problem here due to the 
 .Results
 [cols="^1,^1,^1,^1,^1"]
 |====
-|           2+|Version 1                              2+|Version 2
-|Dataset    |Optimal Car Number   |Optimal Env. Cost  |Optimal Car Number   |Optimal Env. Cost
+|Dataset      2+|Version 1                              2+|Version 2
 
-|`General-Dataset-1`
-|4
-|146
-|4
-|146
+^|             
+^|Optimal Car Number   
+^|Optimal Env. Cost  
+^|Optimal Car Number   
+^|Optimal Env. Cost
 
-|`General-Dataset-2`
-|47
-|1382
-|47
-|1382
+^|`General-Dataset-1`
+^|4
+^|146
+^|4
+^|146
 
-|`General-Dataset-3`
-|173
-|4905
-|173
-|4905
+^|`General-Dataset-2`
+^|47
+^|1382
+^|47
+^|1382
 
-|`d1`
-|5
-|154
-|5
-|154
+^|`General-Dataset-3`
+^|173
+^|4905
+^|173
+^|4905
 
-|`d2`
-|36
-|997
-|36
-|997
+^|`d1`
+^|5
+^|154
+^|5
+^|154
 
-|`d3`
-|200
-|5769
-|200
-|5769
+^|`d2`
+^|36
+^|997
+^|36
+^|997
+
+^|`d3`
+^|200
+^|5769
+^|200
+^|5769
 |===
 
 |====
