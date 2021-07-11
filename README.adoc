@@ -1,0 +1,58 @@
+= Taxi Transportation Optimization Problem 
+
+In this project, we asked to optimize the following aspects of scheduling a workday for a hypothetical taxi agency
+
+* Phase 1: Minimizing the number of taxi drivers 
+* Phase 2: Minimizing the amount of time in which the taxi has no passenger in order to minimize the environmental cost
+
+* Phase 3: To find an optimal point according to the trade-off between minimizing the number of cars and environmental cost
+
+This project contains several datasets, and each dataset consist of _N_ trips which are denoted by _a~i~_, _b~i~_, _s~i~_, _d~i~_:
+
+- _a~i~_: the start time of trip _i_
+- _b~i~_: the end time of trip _i_
+- _s~i~_: the starting point of the trip _i_
+- _d~i~_: the ending point of the trip _i_
+
+image:media/1.png[]
+
+In the project, the class `_Trip_` is defined to model trips in our implementation.
+
+There is also a _MatrixD_ which shows the distances between every point in our problem, e.g. element _d~zy~_ indicates the distance between location _z_ and location _y_. There is a dictionary in our implementation called `_dist_` that represents this matrix. 
+
+
+
+Note that the taxi agency is located at location _1_.
+
+After each trip, the taxi driver can go back to the agency or go for another trip. After finishing a trip we can decide whether the driver come back to the agency with no passenger or taking another available trip.
+
+''''
+
+=== Phase 1
+
+This minimization can be achieved using either *Minimum Cost Flow* network problem or mathematical modeling (*Integer Programming*)
+
+==== Minimum Cost Flow Problem Model
+
+Assume that the flow in the minimum cost flow problem denotes the number of taxi drivers and each trip is represented by 2 nodes (_s~i~_, _d~i~_). Hence, the problem is modeled in a way that the capacity of edges and the demands of nodes restrict the network flow to solve the problem.
+
+In the figure below, the network model is depicted for only two trips. Obviously the maximum required number of cars is equal to two. The lower and upper bound of the edges (_S~1~_, _D~1~_) and (_S~2~_, _D~2~_) force the model to assign exactly one taxi to each trips.
+
+The cost of bypass arc (_Agency to Agency_) is set to be -1 so that the model pass flow through  this arc as much a possible and minimize the flow (number of cars) in the main network. 
+
+image:media/Page-0.png[]
+
+Considering the fact that the `Netwokx` library does not supprot _lower bound_ constraints on edges, we had to do a technique and simulate these constraints by the corresponding demand capabilities of nodes. The technique is to set -1 as demands on _S~i~_ and 1 on _D~i~_ respectively as depicted in the following figure.
+
+After solving this model using `networkx.network_simplex`, the minmium number of cars is equal to `_N-f_` where _f_ is the flow of bypass arc.
+
+image:media/Page-1.png[]
+
+
+
+
+
+
+==== Integer Programming Model
+
+
