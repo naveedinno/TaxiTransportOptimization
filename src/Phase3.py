@@ -2,7 +2,7 @@ from Phase2 import Phase2
 from Phase1 import Phase1
 
 inf = 1000000000000
-dataset_path = "dataset/General-Dataset-3.txt"
+dataset_path = "dataset/General-Dataset-1.txt"
 matrixd_path = "dataset/MarixD_dataset1_General.txt"
 
 
@@ -10,7 +10,7 @@ matrixd_path = "dataset/MarixD_dataset1_General.txt"
 solver = Phase2(dataset_path, matrixd_path)
 print("The result for Phase3 (V.1):")
 flowCost, flowDict = solver.solve(bypass_weight=-1)
-print(f"Environmental cost : {flowCost}")
+print(f"Environmental cost : {flowCost+flowDict['A_start']['A_end']}")
 print(f"Optimal number of cars : {solver.N-flowDict['A_start']['A_end']}")
 # solver.plot(flowDict)
 
@@ -34,12 +34,12 @@ for car_number in range(min_cars + 1, int(1.1*min_cars)):
         optimal_cost = flowCost
         optiaml_flow = flowDict
         optimal_cars = car_number - bypass_flow
-    print(car_number, flowCost, optimal_cost, bypass_flow)
+    # print(car_number, flowCost, optimal_cost, bypass_flow)
 
 print("======================================")
 print("The result for Phase3 (V.2):")
 print(f"Environmental cost: {optimal_cost}")
-print(f"Optimal number of cars (with respect to 10% loss in profit of the taxi numbers for benefit of environment): {optimal_cars}")
+print(f"Optimal number of cars (with respect to 10% loss in profit for the benefit of the environment): {optimal_cars}")
 print(f"Minimum possible number of cars: {min_cars}")
 print(f"Minimum possible value for environmental cost: {min_cost}")
 # solver2.plot(optiaml_flow)

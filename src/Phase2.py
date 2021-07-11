@@ -7,7 +7,7 @@ import numpy as np
 
 import GraphUtils as gu
 from Trip import Trip
-
+from TimeUtils import timer
 
 class Phase2:
 
@@ -33,7 +33,7 @@ class Phase2:
         self.G = nx.DiGraph()
         self.pos = {}
         
-
+    @timer
     def solve(self, bypass_weight=0, input_flow=None):
         if input_flow is None:
             input_flow = self.N

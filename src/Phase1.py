@@ -7,7 +7,7 @@ import numpy as np
 
 import GraphUtils as gu
 from Trip import Trip
-
+from TimeUtils import timer
 
 class Phase1:
 
@@ -33,6 +33,7 @@ class Phase1:
         self.G = nx.DiGraph()
         self.pos = {}
         
+    @timer
     def solve(self):
         self.G.add_node("A_start", demand=-self.N)
         self.G.add_node("A_end", demand=self.N)
